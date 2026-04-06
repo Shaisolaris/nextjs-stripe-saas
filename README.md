@@ -1,5 +1,7 @@
 # nextjs-stripe-saas
 
+![CI](https://github.com/Shaisolaris/nextjs-stripe-saas/actions/workflows/ci.yml/badge.svg)
+
 Next.js 14 SaaS with deep Stripe integration covering the full subscription lifecycle: checkout, trials, proration, usage-based billing, metered pricing, invoice sync, dunning, cancellation, and webhook-driven state management. Built with TypeScript, Prisma, and NextAuth.
 
 ## Stack
