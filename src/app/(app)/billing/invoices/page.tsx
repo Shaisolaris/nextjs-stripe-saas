@@ -1,25 +1,29 @@
-import { getServerSession } from "next-auth";
-import { authOptions, getUserId } from "@/lib/auth";
-import { getInvoices } from "@/lib/stripe/invoices";
-import { InvoiceTable } from "@/components/billing/invoice-table";
+import { isDemoMode, DEMO_INVOICES } from "@/lib/demo-data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function InvoicesPage() {
-  const session = await getServerSession(authOptions);
-  const userId = getUserId(session);
-  if (!userId) return null;
-
-  const invoices = await getInvoices(userId);
+  const invoices = DEMO_INVOICES;
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold">Invoices</h1>
-        <p className="text-muted-foreground">View and download your billing history</p>
-      </div>
+    <div className="space-y-6">
+      <h1 className="text-2xl font-bold">Invoices</h1>
       <Card>
-        <CardHeader><CardTitle>Invoice History</CardTitle></CardHeader>
-        <CardContent><InvoiceTable invoices={invoices} /></CardContent>
+        <CardContent className="pt-6">
+          <div className="space-y-3">
+            {invoices.map((inv) => (
+              <div key={inv.id} className="flex items-center justify-between rounded-lg border p-4">
+                <div>
+                  <p className="font-medium">{inv.date}</p>
+                  <p className="text-sm text-gray-500">Monthly subscription</p>
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="font-semibold">${inv.amount}</span>
+                  <span className="rounded-full bg-green-100 px-2 py-1 text-xs text-green-700">{inv.status}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
       </Card>
     </div>
   );
